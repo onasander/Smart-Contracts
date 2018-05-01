@@ -1,7 +1,7 @@
 Way to make Mist work on Windows without freezing
-Run both GETH and MIST from shortcuts using the following parameters:
-Make sure the have the syncmode match each other in the MIST and in the GETH:
-This is the only way to make this buggy ETH platform to work:
+Run both GETH and MIST from shortcuts using the following parameters
+Make sure syncmode match each other in the MIST and in the GETH
+This is the only way to make this buggy ETH platform to work on Windows and be somehow consistent:
 
 * Run GETH first, wait for it to start syncing (it could take even hours to start downloading), once it starts downloading blocks, you can start MIST
 ** this is the way to decouple GETH from MIST.  Mist uses already running GETH without using it's own GETH.  Bug on top of bug in ETH.
