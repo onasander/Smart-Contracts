@@ -1,0 +1,17 @@
+Way to make Mist work on Windows without freezing
+Run both GETH and MIST from shortcuts using the following parameters:
+Make sure the have the syncmode match each other in the MIST and in the GETH:
+This is the only way to make this buggy ETH platform to work:
+
+GETH Test ROPSTEN:
+"C:\Program Files\Geth\geth.exe" --syncmode "light" --cache 2048 --lightpeers 25 --datadir "D:\ETH\Data\Ropsten" --rinkeby --networkid 3
+
+GETH Test RINKEBY:
+"C:\Program Files\Geth\geth.exe" --syncmode "light" --cache 2048 --lightpeers 25 --datadir "D:\ETH\Data\Rinkeby" --rinkeby --networkid 4
+
+GETH LIVE
+"C:\Program Files\Geth\geth.exe" --syncmode "light" --cache 2048 --lightpeers 25 --datadir "D:\ETH\Data"
+
+MIST:
+"C:\Program Files\Mist\Mist.exe" --node-light
+
