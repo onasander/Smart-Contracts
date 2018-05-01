@@ -22,14 +22,14 @@
 
 pragma solidity ^0.4.23;
 
-contract OnaToken
+contract OnasanderToken
 {
     using SafeMath for uint;
     
     address private wallet;                                // Address where funds are collected
     address public owner;                                  // contract owner
-    string constant public name = "Mika Token 99";
-    string constant public symbol = "M99";
+    string constant public name = "Onasander";
+    string constant public symbol = "ONA";
     uint8 constant public decimals = 18;
     uint public totalSupply = 88000000e18;                       
     uint public totalTokensSold = 0e18;                    // total number of tokens sold to date
