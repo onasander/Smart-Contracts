@@ -13,11 +13,28 @@
 *   @notice Onasander would love to give every user the option to burn the remaining tokens, but due to Solidity VM bugs and risk, we will process
 *   @notice all coin burns and refunds manually.
 *   
+*   @notice How to run the contract:
+*
+*   Requires:
+*   Wallet Address
+*
+*   Run:
+*   1. Create Contract
+*   2. Set Minimum Goal
+*   3. Set Tokens Per ETH
+*   4. Create PRE ICO Sale (can have multiple PRE-ICOs)
+*   5. End PRE ICO Sale
+*   6. Create ICO Sale
+*   7. End ICO Sale
+*   8. END ICO
+*   9. Burn Remaining Tokens
+*   
 *   @dev This contract allows you to configure as many Pre-ICOs as you need.  It's a very simple contract written to give contract admin lots of dynamic options.
 *   @dev Here, most features except for total supply, max tokens for sale, company reserves, and token standard features, are dynamic.  You can configure your contract
 *   @dev however you want to.  
 *
 *   @dev IDE: Remix with Mist 0.10
+*   @dev Token supply numbers are provided in 0e18 format in MIST in order to bypass MIST number format errors.
 */
 
 pragma solidity ^0.4.23;
