@@ -1,0 +1,19 @@
+
+Requires:
+Wallet Address
+
+Run:
+
+1. Create Contract
+2. Set Minimum Goal
+3. Set Token Per ETH
+4. Create PRE ICO Sale
+5. End PRE ICO Sale
+6. Create ICO Sale
+7. End ICO Sale
+8. END ICO
+9. Burn Remaining Tokens
+
+
+* Burning tokens can be run by Contract Owner only, due to solidity checking logic
+* Refunds are manual
