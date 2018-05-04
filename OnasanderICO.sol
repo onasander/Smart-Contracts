@@ -106,6 +106,7 @@ contract OnasanderToken
     function transfer(address to, uint tokens) public returns (bool success)
     {     
         require (ICOEnded, "ICO has not ended.  Can not transfer.");
+        require (balances[to] + tokens > balances[to], "Overflow is not allowed.");
 
         // actual transfer
         // SafeMath.sub will throw if there is not enough balance.
@@ -116,9 +117,12 @@ contract OnasanderToken
         return true;
     }
 
+
+
     function transferFrom(address from, address to, uint tokens) public returns(bool success) 
     {
         require (ICOEnded, "ICO has not ended.  Can not transfer.");
+        require (balances[to] + tokens > balances[to], "Overflow is not allowed.");
 
         // actual transfer
         balances[from] = balances[from].sub(tokens);
@@ -137,11 +141,56 @@ contract OnasanderToken
         return true;
     }
 
+        // in case some investor pays by wire or credit card we will transfer him the tokens manually.
+    function wirePurchase(address to, uint numberOfTokenPurchased) onlyOwner public
+    {     
+        require (saleEnabled, "Sale must be enabled.");
+        require (!ICOEnded, "ICO already ended.");
+        require (tokens > 0, "Tokens must be greater than 0.");
+        require (tokensForSale > totalTokensSoldInThisSale, "There is no more tokens for sale in this sale.");
+                        
+        // calculate amount
+        uint buyAmount = numberOfTokenPurchased;
+        uint tokens = 0e18;
+
+        // this check is not perfect as someone may want to buy more than we offer for sale and we lose a sale.
+        // the best would be to calclate and sell you only the amout of tokens that is left and refund the rest of money
+        //require(totalTokensSoldInThisSale.add(tokens) <= tokensForSale, "Total tokens for sale in this sale plus buying tokens must be less than tokens for sale in this sale");
+        if (totalTokensSoldInThisSale.add(buyAmount) >= tokensForSale)
+        {
+            tokens = tokensForSale.sub(totalTokensSoldInThisSale);  // we allow you to buy only up to total tokens for sale, and refund the rest
+            // need to program the refund for the rest,or do it manually.  
+        }
+        else
+        {
+            tokens = buyAmount;
+        }
+
+        // transfer only as we do not need to take the payment since we already did in wire
+        require (balances[to].add(tokens) > balances[to], "Overflow is not allowed.");
+        balances[to] = balances[to].add(tokens);
+        balances[owner] = balances[owner].sub(tokens);
+        lastBuyer = to;
+
+        // update counts
+        totalTokensSold = totalTokensSold.add(tokens);
+        totalTokensSoldInThisSale = totalTokensSoldInThisSale.add(tokens);
+        
+        emit BuyTokens(msg.sender, tokens);
+        emit Transfer(owner, msg.sender, tokens);
+
+        isGoalReached();
+        isMaxCapReached();
+
+        return true;
+    }
+
     function buyTokens() payable public
     {        
         require (saleEnabled, "Sale must be enabled.");
         require (!ICOEnded, "ICO already ended.");
         require (tokensForSale > totalTokensSoldInThisSale, "There is no more tokens for sale in this sale.");
+        require (msg.value > 0, "Must send ETH");
 
         // calculate amount
         uint buyAmount = SafeMath.mul(msg.value, tokensPerETH);
@@ -162,6 +211,7 @@ contract OnasanderToken
         }
 
         // buy
+        require (balances[msg.sender].add(tokens) > balances[msg.sender], "Overflow is not allowed.");
         balances[msg.sender] = balances[msg.sender].add(tokens);
         balances[owner] = balances[owner].sub(tokens);
         lastBuyer = msg.sender;
