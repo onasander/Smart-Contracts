@@ -28,6 +28,8 @@
 *   7. End ICO Sale
 *   8. END ICO
 *   9. Burn Remaining Tokens
+*
+*   e18 for every value except tokens per ETH
 *   
 *   @dev This contract allows you to configure as many Pre-ICOs as you need.  It's a very simple contract written to give contract admin lots of dynamic options.
 *   @dev Here, most features except for total supply, max tokens for sale, company reserves, and token standard features, are dynamic.  You can configure your contract
@@ -146,7 +148,7 @@ contract OnasanderToken
     {     
         require (saleEnabled, "Sale must be enabled.");
         require (!ICOEnded, "ICO already ended.");
-        require (tokens > 0, "Tokens must be greater than 0.");
+        require (numberOfTokenPurchased > 0, "Tokens must be greater than 0.");
         require (tokensForSale > totalTokensSoldInThisSale, "There is no more tokens for sale in this sale.");
                         
         // calculate amount
@@ -154,8 +156,7 @@ contract OnasanderToken
         uint tokens = 0e18;
 
         // this check is not perfect as someone may want to buy more than we offer for sale and we lose a sale.
-        // the best would be to calclate and sell you only the amout of tokens that is left and refund the rest of money
-        //require(totalTokensSoldInThisSale.add(tokens) <= tokensForSale, "Total tokens for sale in this sale plus buying tokens must be less than tokens for sale in this sale");
+        // the best would be to calclate and sell you only the amout of tokens that is left and refund the rest of money        
         if (totalTokensSoldInThisSale.add(buyAmount) >= tokensForSale)
         {
             tokens = tokensForSale.sub(totalTokensSoldInThisSale);  // we allow you to buy only up to total tokens for sale, and refund the rest
@@ -181,8 +182,6 @@ contract OnasanderToken
 
         isGoalReached();
         isMaxCapReached();
-
-        return true;
     }
 
     function buyTokens() payable public
@@ -197,8 +196,7 @@ contract OnasanderToken
         uint tokens = 0e18;
 
         // this check is not perfect as someone may want to buy more than we offer for sale and we lose a sale.
-        // the best would be to calclate and sell you only the amout of tokens that is left and refund the rest of money
-        //require(totalTokensSoldInThisSale.add(tokens) <= tokensForSale, "Total tokens for sale in this sale plus buying tokens must be less than tokens for sale in this sale");
+        // the best would be to calclate and sell you only the amout of tokens that is left and refund the rest of money        
         if (totalTokensSoldInThisSale.add(buyAmount) >= tokensForSale)
         {
             tokens = tokensForSale.sub(totalTokensSoldInThisSale);  // we allow you to buy only up to total tokens for sale, and refund the rest
