@@ -60,7 +60,7 @@ contract OnasanderToken
     bool public saleEnabled = false;                       // enables all sales: ICO and tokensPreICO
     bool public ICOEnded = false;                          // flag checking if the ICO has completed
     bool public burned = false;                            // Excess tokens burned flag after ICO ends
-    uint public tokensPerETH = 673;                        // amount of Onasander tokens you get for 1 ETH
+    uint public tokensPerETH = 800;                        // amount of Onasander tokens you get for 1 ETH
     bool public wasGoalReached = false;                    // checks if minimum goal was reached
     address private lastBuyer;
     uint private singleToken = 1e18;
@@ -177,8 +177,8 @@ contract OnasanderToken
         totalTokensSold = totalTokensSold.add(tokens);
         totalTokensSoldInThisSale = totalTokensSoldInThisSale.add(tokens);
         
-        emit BuyTokens(msg.sender, tokens);
-        emit Transfer(owner, msg.sender, tokens);
+        emit BuyTokens(to, tokens);
+        emit Transfer(owner, to, tokens);
 
         isGoalReached();
         isMaxCapReached();
