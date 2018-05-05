@@ -2,7 +2,7 @@
 *   
 *   @author: Andrzej Wegrzyn
 *   Contact: development@onasander.com
-*   Date: April 28, 2018
+*   Date: May 5, 2018
 *   Location: New York, USA
 *   Token: Onasander
 *   Symbol: ONA
