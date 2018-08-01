@@ -330,7 +330,7 @@ contract OnasanderToken
         emit SaleStarted(tokensForSale);
     }
 
-    function endSale() public
+    function endSale() onlyOwner public
     {
         if (saleEnabled)
         {
